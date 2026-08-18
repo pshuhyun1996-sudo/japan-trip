@@ -736,15 +736,15 @@ let liveRate = null;
 
 async function fetchRate(){
   try{
-    const res = await fetch('https://api.frankfurter.app/latest?from=JPY&to=KRW');
+    const res = await fetch('https://api.frankfurter.dev/v2/rate/JPY/KRW');
     const data = await res.json();
-    if(data && data.rates && typeof data.rates.KRW === 'number') return data.rates.KRW;
-  }catch(e){ /* try fallback */ }
+    if(data && typeof data.rate === 'number') return data.rate;
+  }catch(e){}
   try{
-    const res2 = await fetch('https://api.exchangerate.host/latest?base=JPY&symbols=KRW');
+    const res2 = await fetch('https://open.er-api.com/v6/latest/JPY');
     const data2 = await res2.json();
     if(data2 && data2.rates && typeof data2.rates.KRW === 'number') return data2.rates.KRW;
-  }catch(e){ /* both failed */ }
+  }catch(e){}
   return null;
 }
 
