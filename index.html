@@ -347,7 +347,7 @@
     <button data-tab="schedule" class="active">일정</button>
     <button data-tab="places">맛집 · 숙소</button>
     <button data-tab="settlement">정산</button>
-    <button data-tab="checklist">체크리스트</button>
+    <button data-tab="prep">준비물</button>
     <button data-tab="bucket">버킷리스트</button>
     <button data-tab="shopping">쇼핑리스트</button>
   </nav>
@@ -416,22 +416,22 @@
   </section>
 
   <section id="panel-prep" class="panel">
-  <div class="section-title">준비물 <span class="cnt" id="prepCnt">0</span></div>
-  <div class="check-list" id="prepList"></div>
-  <button class="add-check" data-cat="prep">+ 항목 추가</button>
-</section>
+    <div class="section-title">준비물 <span class="cnt" id="prepCnt">0</span></div>
+    <div class="check-list" id="prepList"></div>
+    <button class="add-check" data-cat="prep">+ 항목 추가</button>
+  </section>
 
-<section id="panel-bucket" class="panel">
-  <div class="section-title">버킷리스트 <span class="cnt" id="bucketCnt">0</span></div>
-  <div class="check-list" id="bucketList"></div>
-  <button class="add-check" data-cat="bucket">+ 항목 추가</button>
-</section>
+  <section id="panel-bucket" class="panel">
+    <div class="section-title">버킷리스트 <span class="cnt" id="bucketCnt">0</span></div>
+    <div class="check-list" id="bucketList"></div>
+    <button class="add-check" data-cat="bucket">+ 항목 추가</button>
+  </section>
 
-<section id="panel-shopping" class="panel">
-  <div class="section-title">쇼핑리스트 <span class="cnt" id="shoppingCnt">0</span></div>
-  <div class="check-list" id="shoppingList"></div>
-  <button class="add-check" data-cat="shopping">+ 항목 추가</button>
-</section>
+  <section id="panel-shopping" class="panel">
+    <div class="section-title">쇼핑리스트 <span class="cnt" id="shoppingCnt">0</span></div>
+    <div class="check-list" id="shoppingList"></div>
+    <button class="add-check" data-cat="shopping">+ 항목 추가</button>
+  </section>
 
   <div class="save-note" id="saveNote"><span class="dot"></span> 남친과 함께 보는 공유 페이지예요 · 자동 저장됨</div>
 </div>
@@ -505,6 +505,10 @@ const DEFAULT_STATE = {
     bucket: [
       { id:"b1", text:"교토 기모노 입고 산책하기", done:false },
       { id:"b2", text:"오사카 도톤보리 야경 사진 찍기", done:false }
+    ],
+    shopping: [
+      { id:"s1", text:"돈키호테 기념품", done:false },
+      { id:"s2", text:"약국 상비약 (파브론 등)", done:false }
     ]
   },
   settlement: {
@@ -528,6 +532,9 @@ async function loadState(){
   }
   if(!state.settlement){
     state.settlement = { names:["나","남친"], expenses:[], lastRate:null, lastRateTime:null };
+  }
+  if(!state.checklist.shopping){
+    state.checklist.shopping = [];
   }
   renderAll();
 }
@@ -744,12 +751,12 @@ async function fetchRate(){
     const res = await fetch('https://api.frankfurter.dev/v2/rate/JPY/KRW');
     const data = await res.json();
     if(data && typeof data.rate === 'number') return data.rate;
-  }catch(e){}
+  }catch(e){ /* try fallback */ }
   try{
     const res2 = await fetch('https://open.er-api.com/v6/latest/JPY');
     const data2 = await res2.json();
     if(data2 && data2.rates && typeof data2.rates.KRW === 'number') return data2.rates.KRW;
-  }catch(e){}
+  }catch(e){ /* both failed */ }
   return null;
 }
 
@@ -909,6 +916,7 @@ document.getElementById('expAddBtn').addEventListener('click', ()=>{
 function renderChecklist(){
   renderCheckGroup('prep', 'prepList', 'prepCnt');
   renderCheckGroup('bucket', 'bucketList', 'bucketCnt');
+  renderCheckGroup('shopping', 'shoppingList', 'shoppingCnt');
 }
 function renderCheckGroup(cat, listId, cntId){
   const listEl = document.getElementById(listId);
