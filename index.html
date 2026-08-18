@@ -348,6 +348,8 @@
     <button data-tab="places">맛집 · 숙소</button>
     <button data-tab="settlement">정산</button>
     <button data-tab="checklist">체크리스트</button>
+    <button data-tab="bucket">버킷리스트</button>
+    <button data-tab="shopping">쇼핑리스트</button>
   </nav>
 
   <section id="panel-schedule" class="panel active">
@@ -413,20 +415,23 @@
     <div class="settle-summary" id="settleSummary"></div>
   </section>
 
-  <section id="panel-checklist" class="panel">
-    <div class="check-cols">
-      <div>
-        <div class="section-title">준비물 체크리스트 <span class="cnt" id="prepCnt">0</span></div>
-        <div class="check-list" id="prepList"></div>
-        <button class="add-check" data-cat="prep">+ 항목 추가</button>
-      </div>
-      <div>
-        <div class="section-title">버킷리스트 <span class="cnt" id="bucketCnt">0</span></div>
-        <div class="check-list" id="bucketList"></div>
-        <button class="add-check" data-cat="bucket">+ 항목 추가</button>
-      </div>
-    </div>
-  </section>
+  <section id="panel-prep" class="panel">
+  <div class="section-title">준비물 <span class="cnt" id="prepCnt">0</span></div>
+  <div class="check-list" id="prepList"></div>
+  <button class="add-check" data-cat="prep">+ 항목 추가</button>
+</section>
+
+<section id="panel-bucket" class="panel">
+  <div class="section-title">버킷리스트 <span class="cnt" id="bucketCnt">0</span></div>
+  <div class="check-list" id="bucketList"></div>
+  <button class="add-check" data-cat="bucket">+ 항목 추가</button>
+</section>
+
+<section id="panel-shopping" class="panel">
+  <div class="section-title">쇼핑리스트 <span class="cnt" id="shoppingCnt">0</span></div>
+  <div class="check-list" id="shoppingList"></div>
+  <button class="add-check" data-cat="shopping">+ 항목 추가</button>
+</section>
 
   <div class="save-note" id="saveNote"><span class="dot"></span> 남친과 함께 보는 공유 페이지예요 · 자동 저장됨</div>
 </div>
